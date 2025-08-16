@@ -55,6 +55,16 @@ func (sc *Scanner) NextToken() Token {
 	case '}':
 		return sc.readSimpleToken(RightBrace)
 
+	// Punctuation
+	case ',':
+		return sc.readSimpleToken(Comma)
+	case ';':
+		return sc.readSimpleToken(Semicolon)
+	case ':':
+		return sc.readSimpleToken(Colon)
+	case '.':
+		return sc.readSimpleToken(Dot)
+
 	// Whitespaces
 	case ' ':
 		return sc.readSimpleToken(Whitespace)

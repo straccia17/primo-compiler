@@ -71,6 +71,17 @@ func TestScanner(t *testing.T) {
 				{kind: EOF, value: "", row: 1, col: 7},
 			},
 		},
+		{
+			"punctuation",
+			",.;:",
+			[]Token{
+				{kind: Comma, value: ",", row: 1, col: 1},
+				{kind: Dot, value: ".", row: 1, col: 2},
+				{kind: Semicolon, value: ";", row: 1, col: 3},
+				{kind: Colon, value: ":", row: 1, col: 4},
+				{kind: EOF, value: "", row: 1, col: 5},
+			},
+		},
 	}
 
 	for _, tc := range testCases {

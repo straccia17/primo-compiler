@@ -36,6 +36,12 @@ const (
 	// Blanks and Whitespace
 	Whitespace
 
+	// Punctuation
+	Comma
+	Semicolon
+	Colon
+	Dot
+
 	// Identifiers
 	Identifier
 )
