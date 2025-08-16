@@ -43,7 +43,7 @@ func TestScanner(t *testing.T) {
 				{kind: Integer, value: "123", row: 1, col: 1},
 				{kind: Whitespace, value: " ", row: 1, col: 4},
 				{kind: Float, value: "456.789", row: 1, col: 5},
-				{kind: EOF, value: "", row: 1, col: 13},
+				{kind: EOF, value: "", row: 1, col: 12},
 			},
 		},
 		{
@@ -53,9 +53,9 @@ func TestScanner(t *testing.T) {
 				{kind: Identifier, value: "var1", row: 1, col: 1},
 				{kind: Whitespace, value: " ", row: 1, col: 5},
 				{kind: Identifier, value: "var_2", row: 1, col: 6},
-				{kind: Whitespace, value: " ", row: 1, col: 12},
-				{kind: Identifier, value: "var3", row: 1, col: 13},
-				{kind: EOF, value: "", row: 1, col: 17},
+				{kind: Whitespace, value: " ", row: 1, col: 11},
+				{kind: Identifier, value: "var3", row: 1, col: 12},
+				{kind: EOF, value: "", row: 1, col: 16},
 			},
 		},
 		{
@@ -73,13 +73,27 @@ func TestScanner(t *testing.T) {
 		},
 		{
 			"punctuation",
-			",.;:",
+			",.;:\"'",
 			[]Token{
 				{kind: Comma, value: ",", row: 1, col: 1},
 				{kind: Dot, value: ".", row: 1, col: 2},
 				{kind: Semicolon, value: ";", row: 1, col: 3},
 				{kind: Colon, value: ":", row: 1, col: 4},
-				{kind: EOF, value: "", row: 1, col: 5},
+				{kind: DoubleQuote, value: "\"", row: 1, col: 5},
+				{kind: SingleQuote, value: "'", row: 1, col: 6},
+				{kind: EOF, value: "", row: 1, col: 7},
+			},
+		},
+		{
+			"whitespace_and_newline",
+			" \t\nabc\r",
+			[]Token{
+				{kind: Whitespace, value: " ", row: 1, col: 1},
+				{kind: Tab, value: "\t", row: 1, col: 2},
+				{kind: Newline, value: "\n", row: 2, col: 0},
+				{kind: Identifier, value: "abc", row: 2, col: 1},
+				{kind: CarriageReturn, value: "\r", row: 2, col: 4},
+				{kind: EOF, value: "", row: 2, col: 5},
 			},
 		},
 	}
@@ -89,7 +103,7 @@ func TestScanner(t *testing.T) {
 			sc := NewScanner(tc.input)
 			for _, expectedToken := range tc.expected {
 				token := sc.NextToken()
-				if token.kind != expectedToken.kind || token.value != expectedToken.value {
+				if token.kind != expectedToken.kind || token.value != expectedToken.value || token.row != expectedToken.row || token.col != expectedToken.col {
 					t.Errorf("expected %#v, got %#v", expectedToken, token)
 				}
 			}

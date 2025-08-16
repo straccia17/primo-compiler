@@ -35,12 +35,17 @@ const (
 
 	// Blanks and Whitespace
 	Whitespace
+	Newline
+	Tab
+	CarriageReturn
 
 	// Punctuation
 	Comma
 	Semicolon
 	Colon
 	Dot
+	SingleQuote
+	DoubleQuote
 
 	// Identifiers
 	Identifier

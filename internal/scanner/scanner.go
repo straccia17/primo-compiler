@@ -64,10 +64,20 @@ func (sc *Scanner) NextToken() Token {
 		return sc.readSimpleToken(Colon)
 	case '.':
 		return sc.readSimpleToken(Dot)
+	case '\'':
+		return sc.readSimpleToken(SingleQuote)
+	case '"':
+		return sc.readSimpleToken(DoubleQuote)
 
 	// Whitespaces
 	case ' ':
 		return sc.readSimpleToken(Whitespace)
+	case '\t':
+		return sc.readSimpleToken(Tab)
+	case '\n':
+		return sc.readSimpleToken(Newline)
+	case '\r':
+		return sc.readSimpleToken(CarriageReturn)
 
 	// EOF
 	case 0:
@@ -134,6 +144,14 @@ func (sc *Scanner) readIdentifier() Token {
 		sc.readChar()
 	}
 
+	return tok
+}
+
+func (sc *Scanner) readNewline() Token {
+	tok := Token{kind: Newline, value: "\n", row: sc.row, col: sc.col}
+	sc.row++
+	sc.col = 0
+	sc.readChar()
 	return tok
 }
 
