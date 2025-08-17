@@ -1,7 +1,13 @@
 package scanner
 
+import "strconv"
+
 // TokenKind represents the type of token.
 type TokenKind int
+
+func (kind TokenKind) String() string {
+	return strconv.Itoa(int(kind))
+}
 
 const (
 	EOF TokenKind = iota // End of file

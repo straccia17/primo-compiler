@@ -24,6 +24,17 @@ func TestParser(t *testing.T) {
 				&StaticTextNode{Value: "Hello, world!"},
 			},
 		},
+		{
+			"interpolation",
+			"{ name }",
+			[]Node{
+				&InterpolationNode{
+					Expression: &IdentifierExpression{
+						Value: "name",
+					},
+				},
+			},
+		},
 	}
 
 	for _, tt := range tests {
@@ -38,6 +49,27 @@ func TestParser(t *testing.T) {
 
 			if len(result) != len(tt.expected) {
 				t.Fatalf("expected %d nodes, got %d", len(tt.expected), len(result))
+			}
+
+			for i, expected := range tt.expected {
+				if result[i].Kind() != expected.Kind() {
+					t.Errorf("expected node kind %v, got %v", expected.Kind(), result[i].Kind())
+				}
+
+				switch n := expected.(type) {
+				case *StaticTextNode:
+					if staticTextNode, ok := result[i].(*StaticTextNode); ok {
+						if staticTextNode.Value != n.Value {
+							t.Errorf("expected static text '%s', got '%s'", n.Value, staticTextNode.Value)
+						}
+					}
+				case *InterpolationNode:
+					if interpolationNode, ok := result[i].(*InterpolationNode); ok {
+						if interpolationNode.Expression.String() != n.Expression.String() {
+							t.Errorf("expected interpolation expression '%s', got '%s'", n.Expression.String(), interpolationNode.Expression.String())
+						}
+					}
+				}
 			}
 		})
 	}
