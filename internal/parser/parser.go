@@ -3,6 +3,7 @@ package parser
 import (
 	"errors"
 
+	"github.com/primo-js/template-compiler/internal/ast"
 	"github.com/primo-js/template-compiler/internal/scanner"
 )
 
@@ -11,10 +12,10 @@ type Parser struct {
 	currentToken scanner.Token
 }
 
-func (p *Parser) Parse() ([]Node, error) {
-	roots := make([]Node, 0)
+func (p *Parser) Parse() ([]ast.Node, error) {
+	roots := make([]ast.Node, 0)
 
-	var root Node
+	var root ast.Node
 	var err error
 	for p.currentToken.Kind != scanner.EOF {
 		switch p.currentToken.Kind {
@@ -53,8 +54,8 @@ func (p *Parser) consume(kind scanner.TokenKind) error {
 	return nil
 }
 
-func (p *Parser) staticText() *StaticTextNode {
-	staticText := &StaticTextNode{Value: ""}
+func (p *Parser) staticText() *ast.StaticTextNode {
+	staticText := &ast.StaticTextNode{Value: ""}
 	for p.currentToken.Kind != scanner.EOF {
 		staticText.Value += p.currentToken.Value
 		p.advance()
@@ -62,17 +63,17 @@ func (p *Parser) staticText() *StaticTextNode {
 	return staticText
 }
 
-func (p *Parser) interpolation() (*InterpolationNode, error) {
+func (p *Parser) interpolation() (*ast.InterpolationNode, error) {
 	p.advance() // Skip the left bracket
 	p.skipWhitespace()
-	expr := &IdentifierExpression{Value: p.currentToken.Value}
+	expr := &ast.IdentifierExpression{Value: p.currentToken.Value}
 	p.advance()
 	p.skipWhitespace()                   // Move to the next token after the identifier
 	err := p.consume(scanner.RightBrace) // Expect a right bracket
 	if err != nil {
 		return nil, err
 	}
-	return &InterpolationNode{Expression: expr}, nil
+	return &ast.InterpolationNode{Expression: expr}, nil
 }
 
 func NewParser(sc *scanner.Scanner) *Parser {

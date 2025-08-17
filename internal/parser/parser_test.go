@@ -3,6 +3,7 @@ package parser
 import (
 	"testing"
 
+	"github.com/primo-js/template-compiler/internal/ast"
 	"github.com/primo-js/template-compiler/internal/scanner"
 )
 
@@ -10,26 +11,26 @@ func TestParser(t *testing.T) {
 	tests := []struct {
 		name     string
 		input    string
-		expected []Node
+		expected []ast.Node
 	}{
 		{
 			"empty_template",
 			"",
-			[]Node{},
+			[]ast.Node{},
 		},
 		{
 			"static_text",
 			"Hello, world!",
-			[]Node{
-				&StaticTextNode{Value: "Hello, world!"},
+			[]ast.Node{
+				&ast.StaticTextNode{Value: "Hello, world!"},
 			},
 		},
 		{
 			"interpolation",
 			"{ name }",
-			[]Node{
-				&InterpolationNode{
-					Expression: &IdentifierExpression{
+			[]ast.Node{
+				&ast.InterpolationNode{
+					Expression: &ast.IdentifierExpression{
 						Value: "name",
 					},
 				},
@@ -57,14 +58,14 @@ func TestParser(t *testing.T) {
 				}
 
 				switch n := expected.(type) {
-				case *StaticTextNode:
-					if staticTextNode, ok := result[i].(*StaticTextNode); ok {
+				case *ast.StaticTextNode:
+					if staticTextNode, ok := result[i].(*ast.StaticTextNode); ok {
 						if staticTextNode.Value != n.Value {
 							t.Errorf("expected static text '%s', got '%s'", n.Value, staticTextNode.Value)
 						}
 					}
-				case *InterpolationNode:
-					if interpolationNode, ok := result[i].(*InterpolationNode); ok {
+				case *ast.InterpolationNode:
+					if interpolationNode, ok := result[i].(*ast.InterpolationNode); ok {
 						if interpolationNode.Expression.String() != n.Expression.String() {
 							t.Errorf("expected interpolation expression '%s', got '%s'", n.Expression.String(), interpolationNode.Expression.String())
 						}
