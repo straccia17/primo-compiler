@@ -147,14 +147,6 @@ func (sc *Scanner) readIdentifier() Token {
 	return tok
 }
 
-func (sc *Scanner) readNewline() Token {
-	tok := Token{Kind: Newline, Value: "\n", Row: sc.row, Col: sc.col}
-	sc.row++
-	sc.col = 0
-	sc.readChar()
-	return tok
-}
-
 func NewScanner(input string) *Scanner {
 	sc := &Scanner{
 		input:        input,
