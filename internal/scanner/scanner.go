@@ -81,7 +81,7 @@ func (sc *Scanner) NextToken() Token {
 
 	// EOF
 	case 0:
-		return Token{kind: EOF, value: "", row: sc.row, col: sc.col}
+		return Token{Kind: EOF, Value: "", Row: sc.row, Col: sc.col}
 
 	default:
 		if sc.isDigit(sc.ch) {
@@ -109,7 +109,7 @@ func (sc *Scanner) readChar() byte {
 }
 
 func (sc *Scanner) readSimpleToken(kind TokenKind) Token {
-	token := Token{kind: kind, value: string(sc.ch), row: sc.row, col: sc.col}
+	token := Token{Kind: kind, Value: string(sc.ch), Row: sc.row, Col: sc.col}
 	sc.readChar()
 	return token
 }
@@ -123,13 +123,13 @@ func (sc *Scanner) isLetter(ch byte) bool {
 }
 
 func (sc *Scanner) readNumber() Token {
-	tok := Token{row: sc.row, col: sc.col, kind: Integer}
+	tok := Token{Row: sc.row, Col: sc.col, Kind: Integer}
 
 	for sc.isDigit(sc.ch) || sc.ch == '.' {
 		if sc.ch == '.' {
-			tok.kind = Float
+			tok.Kind = Float
 		}
-		tok.value += string(sc.ch)
+		tok.Value += string(sc.ch)
 		sc.readChar()
 	}
 
@@ -137,10 +137,10 @@ func (sc *Scanner) readNumber() Token {
 }
 
 func (sc *Scanner) readIdentifier() Token {
-	tok := Token{row: sc.row, col: sc.col, kind: Identifier}
+	tok := Token{Row: sc.row, Col: sc.col, Kind: Identifier}
 
 	for sc.isLetter(sc.ch) || sc.isDigit(sc.ch) || sc.ch == '_' {
-		tok.value += string(sc.ch)
+		tok.Value += string(sc.ch)
 		sc.readChar()
 	}
 
@@ -148,7 +148,7 @@ func (sc *Scanner) readIdentifier() Token {
 }
 
 func (sc *Scanner) readNewline() Token {
-	tok := Token{kind: Newline, value: "\n", row: sc.row, col: sc.col}
+	tok := Token{Kind: Newline, Value: "\n", Row: sc.row, Col: sc.col}
 	sc.row++
 	sc.col = 0
 	sc.readChar()

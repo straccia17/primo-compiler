@@ -52,8 +52,8 @@ const (
 )
 
 type Token struct {
-	kind  TokenKind
-	value string
-	row   int
-	col   int
+	Kind  TokenKind
+	Value string
+	Row   int
+	Col   int
 }
