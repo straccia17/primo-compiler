@@ -1,1 +1,1 @@
-export function template() {}
+export function template(ctx) {}
