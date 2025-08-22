@@ -3,8 +3,8 @@ package parser
 import (
 	"testing"
 
-	"github.com/primo-js/template-compiler/internal/ast"
-	"github.com/primo-js/template-compiler/internal/scanner"
+	"github.com/straccia17/primo-compiler/internal/ast"
+	"github.com/straccia17/primo-compiler/internal/scanner"
 )
 
 func TestParser(t *testing.T) {

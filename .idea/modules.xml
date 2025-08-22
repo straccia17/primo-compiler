@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/template-compiler.iml" filepath="$PROJECT_DIR$/.idea/template-compiler.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/primo-compiler.iml" filepath="$PROJECT_DIR$/.idea/primo-compiler.iml" />
     </modules>
   </component>
 </project>
