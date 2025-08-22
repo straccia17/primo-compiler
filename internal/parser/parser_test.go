@@ -36,6 +36,36 @@ func TestParser(t *testing.T) {
 				},
 			},
 		},
+		{
+			"addition and multiplication",
+			"{ 1 + 2 * 3 }",
+			[]ast.Node{
+				&ast.InterpolationNode{
+					Expression: &ast.BinaryExpression{
+						Left:     &ast.IntegerLiteral{Value: 1},
+						Operator: simpleToken(scanner.Plus, "+"),
+						Right: &ast.BinaryExpression{
+							Left:     &ast.IntegerLiteral{Value: 2},
+							Operator: simpleToken(scanner.Star, "*"),
+							Right:    &ast.IntegerLiteral{Value: 3},
+						},
+					},
+				},
+			},
+		},
+		{
+			"subtraction",
+			"{ 1 - 2 }",
+			[]ast.Node{
+				&ast.InterpolationNode{
+					Expression: &ast.BinaryExpression{
+						Left:     &ast.IntegerLiteral{Value: 1},
+						Operator: simpleToken(scanner.Minus, "-"),
+						Right:    &ast.IntegerLiteral{Value: 2},
+					},
+				},
+			},
+		},
 	}
 
 	for _, tt := range tests {
@@ -74,4 +104,8 @@ func TestParser(t *testing.T) {
 			}
 		})
 	}
+}
+
+func simpleToken(t scanner.TokenKind, v string) scanner.Token {
+	return scanner.Token{Kind: t, Value: v}
 }
